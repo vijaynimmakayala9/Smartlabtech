@@ -141,7 +141,7 @@ export default function Navbar() {
           className="flex items-center gap-2.5 sm:gap-3.5 flex-shrink-0 bg-transparent border-none cursor-pointer p-0"
         >
           <img
-            src="/Screenshot 2026-04-13 151403.png"
+            src="/logo.png"
             alt="SmartLabTech"
             className="h-9 sm:h-11 lg:h-[48px] w-auto object-contain"
             onError={e => { e.target.style.display = 'none'; }}
