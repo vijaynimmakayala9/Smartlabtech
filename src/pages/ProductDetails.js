@@ -498,7 +498,7 @@ const ProductDetails = () => {
               <span className="text-gray-400">/</span>
               <button onClick={() => navigate('/products')} className="text-gray-500 hover:text-[#0f2b3d]">Products</button>
               <span className="text-gray-400">/</span>
-              <button onClick={() => navigate(`/category/${product.category.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`)} className="text-gray-500 hover:text-[#0f2b3d]">{product.category}</button>
+              <button onClick={() => navigate(`/category/${product.category}`)} className="text-gray-500 hover:text-[#0f2b3d]">{product.category}</button>
               <span className="text-gray-400">/</span>
               <span className="text-[#0f2b3d] font-semibold">{product.name}</span>
             </div>
