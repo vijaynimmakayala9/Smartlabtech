@@ -10,10 +10,10 @@ const NAV_LINKS = ['Home', 'About', 'Products', 'Services', 'Contact', 'More'];
 
 // More dropdown items
 const MORE_LINKS = [
-  { name: 'Support', icon: <HelpCircle size={16} />, link: '/support' },
-  { name: 'Resources', icon: <BookOpen size={16} />, link: '/resources' },
-  { name: 'Blogs', icon: <FileText size={16} />, link: '/blogs' },
-  { name: 'Career', icon: <Briefcase size={16} />, link: '/career' },
+  { name: 'Support', icon: <HelpCircle size={14} />, link: '/support' },
+  { name: 'Resources', icon: <BookOpen size={14} />, link: '/resources' },
+  { name: 'Blogs', icon: <FileText size={14} />, link: '/blogs' },
+  { name: 'Career', icon: <Briefcase size={14} />, link: '/career' },
 ];
 
 // Keep these in sync with the Tailwind height classes on the nav element
@@ -33,6 +33,7 @@ export default function Navbar() {
 
   const timerRef = useRef(null);
   const moreTimerRef = useRef(null);
+  const moreBtnRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -171,22 +172,62 @@ export default function Navbar() {
                 </motion.span>
               </button>
             ) : link === 'More' ? (
-              <button
-                key={link}
-                onMouseEnter={openMoreDrop}
-                onMouseLeave={closeMoreDrop}
-                className={`flex items-center gap-1.5 px-3 xl:px-4 py-2 rounded-lg text-sm font-semibold
-                  transition-all duration-150 cursor-pointer border-none
-                  ${moreDropOpen
-                    ? 'text-blue-900 bg-indigo-50'
-                    : 'text-black bg-transparent hover:text-blue-900 hover:bg-indigo-50'
-                  }`}
-              >
-                More
-                <motion.span animate={{ rotate: moreDropOpen ? 180 : 0 }} transition={{ duration: 0.2 }} className="flex items-center">
-                  <ChevronDown size={15} />
-                </motion.span>
-              </button>
+              <div key={link} className="relative" ref={moreBtnRef}>
+                <button
+                  onMouseEnter={openMoreDrop}
+                  onMouseLeave={closeMoreDrop}
+                  className={`flex items-center gap-1.5 px-3 xl:px-4 py-2 rounded-lg text-sm font-semibold
+                    transition-all duration-150 cursor-pointer border-none
+                    ${moreDropOpen
+                      ? 'text-blue-900 bg-indigo-50'
+                      : 'text-black bg-transparent hover:text-blue-900 hover:bg-indigo-50'
+                    }`}
+                >
+                  More
+                  <motion.span animate={{ rotate: moreDropOpen ? 180 : 0 }} transition={{ duration: 0.2 }} className="flex items-center">
+                    <ChevronDown size={15} />
+                  </motion.span>
+                </button>
+
+                {/* More Dropdown - Simple Normal Dropdown positioned under button */}
+                <AnimatePresence>
+                  {moreDropOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.15, ease: "easeOut" }}
+                      onMouseEnter={openMoreDrop}
+                      onMouseLeave={closeMoreDrop}
+                      className="absolute right-0 z-[999] pt-2"
+                      style={{ top: '100%' }}
+                    >
+                      <div className="w-48 bg-white rounded-xl border border-slate-200 shadow-[0_12px_40px_rgba(15,35,86,0.15)] overflow-hidden py-1">
+                        {MORE_LINKS.map((item, idx) => (
+                          <button
+                            key={item.name}
+                            onClick={() => {
+                              setMoreDropOpen(false);
+                              navigate(item.link);
+                            }}
+                            className={`flex items-center gap-2.5 w-full px-4 py-2.5 text-left hover:bg-indigo-50 transition-colors group ${
+                              idx !== MORE_LINKS.length - 1 ? 'border-b border-slate-100' : ''
+                            }`}
+                          >
+                            <span className="text-slate-400 group-hover:text-blue-600 transition-colors">
+                              {item.icon}
+                            </span>
+                            <span className="text-sm font-medium text-slate-700 group-hover:text-blue-900">
+                              {item.name}
+                            </span>
+                            <ChevronRight size={12} className="ml-auto text-slate-300 group-hover:text-blue-400 opacity-0 group-hover:opacity-100 transition-all" />
+                          </button>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             ) : (
               <button
                 key={link}
@@ -351,66 +392,6 @@ export default function Navbar() {
                   className="px-4 py-1.5 rounded-lg text-xs font-semibold border border-blue-400 text-blue-600 hover:bg-blue-600 hover:text-white transition"
                 >
                   Contact Expert
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* More Dropdown */}
-      <AnimatePresence>
-        {moreDropOpen && (
-          <motion.div
-            data-navbar
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            onMouseEnter={openMoreDrop}
-            onMouseLeave={closeMoreDrop}
-            className="fixed left-0 right-0 z-[999] flex justify-center px-4"
-            style={{ top: TOP_BAR_H + NAV_H + 8 }}
-          >
-            <div className="w-full max-w-[420px] bg-white rounded-2xl border border-slate-200 shadow-[0_20px_60px_rgba(15,35,86,0.18)] overflow-hidden">
-              {/* Header */}
-              <div className="px-5 py-4 bg-gradient-to-r from-[#0f2356] to-[#2563eb]">
-                <p className="text-sm font-bold text-white tracking-wide">Explore More</p>
-                <p className="text-xs text-white/60 mt-0.5">Additional resources & information</p>
-              </div>
-
-              {/* Links */}
-              <div className="p-2">
-                {MORE_LINKS.map((item) => (
-                  <button
-                    key={item.name}
-                    onClick={() => {
-                      setMoreDropOpen(false);
-                      navigate(item.link);
-                    }}
-                    className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-indigo-50 transition text-left group"
-                  >
-                    <div className="w-9 h-9 flex items-center justify-center bg-slate-100 rounded-lg text-slate-600 group-hover:bg-indigo-100 group-hover:text-blue-600 transition-colors">
-                      {item.icon}
-                    </div>
-                    <span className="text-sm font-semibold text-slate-700 group-hover:text-blue-900">
-                      {item.name}
-                    </span>
-                    <ChevronRight size={14} className="ml-auto opacity-0 group-hover:opacity-100 transition text-slate-400" />
-                  </button>
-                ))}
-              </div>
-
-              {/* Footer */}
-              <div className="px-5 py-3 bg-slate-50 border-t border-slate-100">
-                <button
-                  onClick={() => {
-                    setMoreDropOpen(false);
-                    navigate('/contact');
-                  }}
-                  className="text-xs font-medium text-blue-600 hover:text-blue-800 transition"
-                >
-                  Can't find what you're looking for? Contact us →
                 </button>
               </div>
             </div>
