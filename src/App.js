@@ -9,6 +9,7 @@ import BlogDetailsPage from './pages/BlogDetails.js';
 import ProductDetails from './pages/ProductDetails.js';
 import ProductsPage from './pages/ProductsPage.js';
 import CategoryProductsPage from './pages/CategoryProductsPage.js';
+import Careers from './pages/CareersPage.js';
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path='/about' element={<AboutPage />} />
         <Route path='/blogs' element={<BlogsPage />} />
         <Route path='/blogDetails/:id' element={<BlogDetailsPage />} />
+        <Route path='/careers' element={<Careers />} />
       </Routes>
     </>
   )
