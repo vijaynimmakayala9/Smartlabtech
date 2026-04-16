@@ -44,7 +44,7 @@ export default function Footer({ id }) {
           <div className="col-span-2">
             {/* Logo */}
             <div className="flex items-center gap-2.5 mb-4">
-              <img src="/Screenshot 2026-04-13 151403.png" alt="SmartLabTech"
+              <img src="/logo.png" alt="SmartLabTech"
                 className="w-9 h-9 object-contain rounded-lg"
                 onError={e => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }} />
               <div className="hidden w-9 h-9 items-center justify-center rounded-lg flex-shrink-0"
