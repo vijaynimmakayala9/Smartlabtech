@@ -21,7 +21,6 @@ export default function Home() {
       {/* <Services /> id="hero" */}
       <Contact id="contact" />
       <Footer id="footer" />
-      <SideButtons />
       <ScrollDots/>
     </div>
   );

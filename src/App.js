@@ -12,10 +12,12 @@ import CategoryProductsPage from './pages/CategoryProductsPage.js';
 import Careers from './pages/CareersPage.js';
 import Support from './pages/SupportPage.js';
 import ResourcesPage from './pages/ResourcesPage.js';
+import SideButtons from './components/SideButton.js';
 
 const App = () => {
   return (
     <>
+    <SideButtons />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path='/products' element={<ProductsPage/>}/>

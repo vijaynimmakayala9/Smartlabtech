@@ -425,8 +425,8 @@ const ProductCard = ({ product, viewMode, index }) => {
 const ProductsPage = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [selectedBrand, setSelectedBrand] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("Category");
+  const [selectedBrand, setSelectedBrand] = useState("Brand");
   const [viewMode, setViewMode] = useState("grid");
   const [showFilters, setShowFilters] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -441,15 +441,15 @@ const ProductsPage = () => {
     products.map(product => ({ ...product, category }))
   );
 
-  const brands = ["All", ...new Set(allProducts.map(p => p.brand))];
-  const categories = ["All", ...Object.keys(CATEGORIES)];
+  const brands = ["Brand", ...new Set(allProducts.map(p => p.brand))];
+  const categories = ["Category", ...Object.keys(CATEGORIES)];
 
   const filteredProducts = allProducts.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           product.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           product.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === "All" || product.category === selectedCategory;
-    const matchesBrand = selectedBrand === "All" || product.brand === selectedBrand;
+    const matchesCategory = selectedCategory === "Category" || product.category === selectedCategory;
+    const matchesBrand = selectedBrand === "Brand" || product.brand === selectedBrand;
     return matchesSearch && matchesCategory && matchesBrand;
   });
 
@@ -654,7 +654,7 @@ const ProductsPage = () => {
                 <h3 className="font-serif text-xl font-semibold text-slate-800 mb-2">No products found</h3>
                 <p className="text-slate-500 mb-4">Try adjusting your filters</p>
                 <button
-                  onClick={() => { setSearchTerm(""); setSelectedCategory("All"); setSelectedBrand("All"); }}
+                  onClick={() => { setSearchTerm(""); setSelectedCategory("Category"); setSelectedBrand("Brand"); }}
                   className="px-6 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-medium hover:bg-blue-700 transition"
                 >
                   Clear All Filters
