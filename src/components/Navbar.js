@@ -1274,7 +1274,7 @@
 //         )}
 //       </AnimatePresence>
 
-      // {/* ─────────── MOBILE DRAWER ─────────── */}
+//       {/* ─────────── MOBILE DRAWER ─────────── */}
       // <AnimatePresence>
       //   {mobileOpen && (
       //     <>
@@ -1829,9 +1829,7 @@ export default function Navbar() {
                   >
                     <Search size={16} />
                     <span className="hidden xl:inline">Search products...</span>
-                    <kbd className="hidden lg:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] bg-white rounded border border-slate-300 ml-2">
-                      <span className="text-xs">⌘</span>K
-                    </kbd>
+                    <span className="xl:hidden">Search...</span>
                   </button>
 
                   <button
@@ -1986,6 +1984,7 @@ export default function Navbar() {
         {mobileOpen && (
           <>
             <motion.div
+              key="overlay"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -1993,32 +1992,163 @@ export default function Navbar() {
               className="fixed inset-0 z-[900] bg-slate-900/40 backdrop-blur-sm"
               style={{ top: TOP_BAR_H + 64 }}
             />
+
             <motion.div
+              key="drawer"
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
-              transition={{ type: 'tween', duration: 0.25 }}
+              transition={{ type: 'tween', duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="fixed right-0 bottom-0 w-[min(360px,100vw)] bg-white z-[950] overflow-y-auto"
-              style={{ top: TOP_BAR_H + 64 }}
+              style={{ top: TOP_BAR_H + 64, boxShadow: '-6px 0 28px rgba(15,35,86,0.14)' }}
             >
               <nav>
-                {NAV_LINKS.map(link => (
-                  <button
-                    key={link}
-                    onClick={() => handleNavClick(link)}
-                    className="flex items-center justify-between w-full px-5 py-4 bg-transparent border-b border-slate-100 cursor-pointer text-sm text-slate-700 font-medium text-left hover:bg-indigo-50 hover:text-blue-900"
-                  >
-                    {link} <ChevronRight size={15} className="text-slate-400" />
-                  </button>
-                ))}
+                {NAV_LINKS.map(link =>
+                  link === 'Products' ? (
+                    <div key={link}>
+                      <button
+                        onClick={() => toggleMobileCat('products-top')}
+                        className="flex items-center justify-between w-full px-5 py-4 bg-transparent
+                          border-b border-slate-100 cursor-pointer text-sm text-blue-900 font-semibold text-left"
+                      >
+                        Products
+                        <motion.span
+                          animate={{ rotate: mobileExpanded['products-top'] ? 180 : 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="flex items-center"
+                        >
+                          <ChevronDown size={16} className="text-slate-400" />
+                        </motion.span>
+                      </button>
+
+                      <AnimatePresence>
+                        {mobileExpanded['products-top'] && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.22 }}
+                            className="overflow-hidden"
+                          >
+                            {Object.entries(CATEGORIES).map(([cat, items]) => (
+                              <div key={cat}>
+                                <button
+                                  onClick={() => toggleMobileCat(cat)}
+                                  className="flex items-center justify-between w-full px-5 py-2.5
+                                    bg-slate-50 border-b border-slate-100 cursor-pointer
+                                    text-[11px] text-blue-600 font-bold tracking-widest uppercase text-left"
+                                >
+                                  {cat}
+                                  <ChevronDown
+                                    size={11}
+                                    className={`text-sky-400 transition-transform duration-200 ${mobileExpanded[cat] ? 'rotate-180' : ''}`}
+                                  />
+                                </button>
+
+                                <AnimatePresence>
+                                  {mobileExpanded[cat] && (
+                                    <motion.div
+                                      initial={{ height: 0, opacity: 0 }}
+                                      animate={{ height: 'auto', opacity: 1 }}
+                                      exit={{ height: 0, opacity: 0 }}
+                                      transition={{ duration: 0.16 }}
+                                      className="overflow-hidden"
+                                    >
+                                      {items.map(item => (
+                                        <button
+                                          key={item.name}
+                                          onClick={() => { setMobileOpen(false); navigate(item.link); }}
+                                          className="flex items-center gap-3 w-full px-6 py-3 bg-transparent
+                                            border-b border-slate-50 cursor-pointer text-left hover:bg-indigo-50 transition-colors"
+                                        >
+                                          <span className="text-lg w-7 text-center flex-shrink-0">{item.icon}</span>
+                                          <p className="text-xs font-semibold text-blue-900 leading-snug">{item.name}</p>
+                                        </button>
+                                      ))}
+                                    </motion.div>
+                                  )}
+                                </AnimatePresence>
+                              </div>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  ) : link === 'More' ? (
+                    <div key={link}>
+                      <button
+                        onClick={() => toggleMobileCat('more-top')}
+                        className="flex items-center justify-between w-full px-5 py-4 bg-transparent
+                          border-b border-slate-100 cursor-pointer text-sm text-slate-700 font-medium text-left
+                          transition-all hover:bg-indigo-50 hover:text-blue-900"
+                      >
+                        More
+                        <motion.span
+                          animate={{ rotate: mobileExpanded['more-top'] ? 180 : 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="flex items-center"
+                        >
+                          <ChevronDown size={16} className="text-slate-400" />
+                        </motion.span>
+                      </button>
+
+                      <AnimatePresence>
+                        {mobileExpanded['more-top'] && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.22 }}
+                            className="overflow-hidden"
+                          >
+                            {MORE_LINKS.map(item => (
+                              <button
+                                key={item.name}
+                                onClick={() => { setMobileOpen(false); navigate(item.link); }}
+                                className="flex items-center gap-3 w-full px-6 py-3 bg-transparent
+                                  border-b border-slate-50 cursor-pointer text-left hover:bg-indigo-50 transition-colors"
+                              >
+                                <span className="text-lg w-7 text-center flex-shrink-0 text-slate-500">{item.icon}</span>
+                                <p className="text-sm font-medium text-slate-700 leading-snug">{item.name}</p>
+                              </button>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  ) : (
+                    <button
+                      key={link}
+                      onClick={() => handleNavClick(link)}
+                      className="flex items-center justify-between w-full px-5 py-4 bg-transparent
+                        border-b border-slate-100 cursor-pointer text-sm text-slate-700 font-medium text-left
+                        transition-all hover:bg-indigo-50 hover:text-blue-900"
+                    >
+                      {link} <ChevronRight size={15} className="text-slate-400" />
+                    </button>
+                  )
+                )}
               </nav>
+
               <div className="p-4">
                 <button
-                  onClick={() => { setMobileOpen(false); setOpen('quote'); }}
-                  className="w-full py-3.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-blue-900 to-sky-500 shadow-md"
+                  onClick={() => { setMobileOpen(false); navigate('/contact'); }}
+                  className="w-full py-3.5 rounded-xl text-sm font-semibold text-white border-none cursor-pointer
+                    bg-gradient-to-r from-blue-900 to-sky-500 shadow-md"
                 >
                   Get a Quote
                 </button>
+              </div>
+
+              <div className="mx-4 mb-5 p-4 bg-slate-50 rounded-xl border border-slate-200">
+                <div className="flex items-center gap-3 mb-2.5">
+                  <Phone size={14} className="text-sky-400 flex-shrink-0" />
+                  <span className="text-xs text-slate-600">+91 98765 43210</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Mail size={14} className="text-sky-400 flex-shrink-0" />
+                  <span className="text-xs text-slate-600 break-all">info@smartlabtech.in</span>
+                </div>
               </div>
             </motion.div>
           </>
