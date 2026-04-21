@@ -669,7 +669,8 @@ export default function Navbar() {
 
               <div className="p-4">
                 <button
-                  onClick={() => { setMobileOpen(false); navigate('/contact'); }}
+                  // onClick={() => { setMobileOpen(false); navigate('/quote'); }}
+                  onClick={() => { setOpen('quote'); }}
                   className="w-full py-3.5 rounded-xl text-sm font-semibold text-white border-none cursor-pointer
                     bg-gradient-to-r from-blue-900 to-sky-500 shadow-md"
                 >

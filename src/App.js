@@ -15,6 +15,7 @@ import ResourcesPage from './pages/ResourcesPage.js';
 import SideButtons from './components/SideButton.js';
 import SearchBar from './components/SearchBar.js';
 import SearchResults from './pages/SearchPage.js';
+import AdminPanel from './pages/AdminPannel.js';
 
 const App = () => {
   return (
@@ -35,6 +36,7 @@ const App = () => {
         <Route path='/support' element={<Support />} />
         <Route path='/resources' element={<ResourcesPage />} />
         <Route path='/search' element={<SearchResults />} />
+        <Route path='/admin' element={<AdminPanel />} />
       </Routes>
     </>
   )

@@ -89,21 +89,22 @@ export default function Contact({ id }) {
                 ))}
               </div>
 
-              {/* Map placeholder */}
-              <div className="rounded-2xl overflow-hidden relative border border-slate-200 flex items-center justify-center" style={{ height: 260, background: 'linear-gradient(135deg,#f0f7ff,#e2e8f0)' }}>
-                <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=700&q=80"
-                  alt="Location" className="absolute inset-0 w-full h-full object-cover opacity-50" />
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
-                  <div className="w-14 h-14 rounded-full bg-blue-900 flex items-center justify-center"
-                    style={{ boxShadow: '0 0 0 8px rgba(30,58,138,0.15)' }}>
-                    <MapPin size={22} color="#fff" />
-                  </div>
-                  <div className="bg-white rounded-lg px-4 py-2 text-sm font-semibold text-blue-900 font-body"
-                    style={{ boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }}>
-                    SmartLabTech HQ — Hyderabad
-                  </div>
-                </div>
-              </div>
+             {/* Map Section */}
+            {/* Map Section */}
+                  <Reveal>
+                    <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-20 pb-20">
+                      <div className="rounded-3xl overflow-hidden border border-slate-200 h-[380px] relative shadow-lg">
+                        <div className="absolute inset-0 z-10 pointer-events-none rounded-3xl ring-1 ring-inset ring-slate-200/50" />
+                        <iframe
+                          title="SmartLabtech Location"
+                          src="https://maps.google.com/maps?q=Balanagar+Hyderabad+Telangana&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                          className="w-full h-full border-0"
+                          loading="lazy"
+                          allowFullScreen
+                        />
+                      </div>
+                    </div>
+                  </Reveal>
             </div>
           </Reveal>
 
