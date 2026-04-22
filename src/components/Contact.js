@@ -90,21 +90,20 @@ export default function Contact({ id }) {
               </div>
 
              {/* Map Section */}
-            {/* Map Section */}
-                  <Reveal>
-                    <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-20 pb-20">
-                      <div className="rounded-3xl overflow-hidden border border-slate-200 h-[380px] relative shadow-lg">
-                        <div className="absolute inset-0 z-10 pointer-events-none rounded-3xl ring-1 ring-inset ring-slate-200/50" />
-                        <iframe
-                          title="SmartLabtech Location"
-                          src="https://maps.google.com/maps?q=Balanagar+Hyderabad+Telangana&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                          className="w-full h-full border-0"
-                          loading="lazy"
-                          allowFullScreen
-                        />
-                      </div>
-                    </div>
-                  </Reveal>
+            <Reveal>
+              <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-20 pb-20">
+                <div className="rounded-3xl overflow-hidden border border-slate-200 h-[380px] relative shadow-lg">
+                  <div className="absolute inset-0 z-10 pointer-events-none rounded-3xl ring-1 ring-inset ring-slate-200/50" />
+                  <iframe
+                    title="SmartLabtech Location"
+                    src="https://maps.google.com/maps?q=Balanagar+Hyderabad+Telangana&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                    className="w-full h-full border-0"
+                    loading="lazy"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
+            </Reveal>
             </div>
           </Reveal>
 

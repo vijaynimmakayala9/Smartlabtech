@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import analytics from "../assets/analytical.jpg";
+import { useNavigate } from "react-router-dom";
 
 const SLIDES = [
   {
@@ -32,7 +33,9 @@ export default function Hero({ id }) {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
   const [displayText, setDisplayText] = useState("");
+
   const intervalRef = useRef(null);
+  const navigate = useNavigate();
 
   const next = () => {
     setDirection(1);
@@ -122,7 +125,7 @@ export default function Hero({ id }) {
             </button>
 
             <button
-              onClick={() => smoothScrollTo("services")}
+              onClick={() => navigate('/products')}
               className="px-6 py-3 rounded-xl border border-slate-300 text-blue-900 text-sm font-semibold hover:bg-blue-50 transition"
             >
               Browse Products
