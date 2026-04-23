@@ -54,7 +54,7 @@ export default function Contact({ id }) {
     `${inputBase} ${errors[field] ? 'border-red-400' : 'border-slate-200'}`;
 
   return (
-    <section id={id} className="bg-slate-50 py-8 sm:py-8 lg:py-8">
+    <section id={id} className="bg-slate-50 py-12 sm:py-12 lg:py-12">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-8 lg:px-20">
 
         {/* ── Header ── */}
