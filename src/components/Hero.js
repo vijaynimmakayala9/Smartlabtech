@@ -73,29 +73,31 @@ export default function Hero({ id }) {
   const restWords = words.slice(1).join(" ");
 
   return (
-    <section id={id} className="relative min-h-screen flex items-center bg-gradient-to-br from-blue-50 via-white to-blue-50 overflow-hidden">
+    <section
+      id={id}
+      className="relative vh-100 flex items-center bg-gradient-to-br from-blue-50 via-white to-blue-50 overflow-hidden"
+    >
+      {/* Background blobs — hidden on very small screens to reduce noise */}
+      <div className="hidden sm:block absolute -top-32 -right-32 w-64 h-64 md:w-[400px] md:h-[400px] bg-sky-200/30 rounded-full blur-3xl pointer-events-none" />
+      <div className="hidden sm:block absolute -bottom-24 -left-24 w-48 h-48 md:w-[300px] md:h-[300px] bg-blue-300/20 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Background blobs */}
-      <div className="absolute -top-32 -right-32 w-[400px] h-[400px] bg-sky-200/30 rounded-full blur-3xl" />
-      <div className="absolute -bottom-24 -left-24 w-[300px] h-[300px] bg-blue-300/20 rounded-full blur-3xl" />
+      <div className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-12 py-8 sm:py-20 lg:py-12 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-center">
 
-      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-12 py-12 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-
-        {/* LEFT CONTENT */}
-        <div>
+        {/* ── LEFT CONTENT ── */}
+        <div className="flex flex-col items-start text-left order-2 lg:order-1">
 
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 mb-5 rounded-full bg-sky-100 text-sky-700 text-xs font-semibold">
-            <span className="w-2 h-2 bg-sky-500 rounded-full animate-pulse"></span>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 mb-4 sm:mb-5 rounded-full bg-sky-100 text-sky-700 text-xs font-semibold">
+            <span className="w-2 h-2 bg-sky-500 rounded-full animate-pulse shrink-0" />
             {slide.badge}
           </div>
 
-          {/* Subtitle */}
-          <p className="text-slate-400 text-lg sm:text-xl mb-2">
+          {/* Eyebrow text */}
+          <p className="text-slate-400 text-base sm:text-lg md:text-xl mb-1 sm:mb-2">
             Looking for
           </p>
 
-          {/* Heading */}
+          {/* Animated headline */}
           <AnimatePresence mode="wait">
             <motion.h1
               key={current}
@@ -103,7 +105,7 @@ export default function Hero({ id }) {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: direction > 0 ? -60 : 60, opacity: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-4"
+              className="text-3xl xs:text-4xl sm:text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-3 sm:mb-4"
             >
               <span className="block">{firstWord}</span>
               <span className="text-blue-600">{restWords}</span>
@@ -111,38 +113,38 @@ export default function Hero({ id }) {
           </AnimatePresence>
 
           {/* Description */}
-          <p className="text-slate-500 max-w-md mb-6 text-sm sm:text-base leading-relaxed">
+          <p className="text-slate-500 max-w-xs sm:max-w-sm md:max-w-md mb-5 sm:mb-6 text-sm sm:text-base leading-relaxed">
             {slide.sub}
           </p>
 
-          {/* Buttons */}
-          <div className="flex flex-wrap gap-3">
+          {/* CTA Buttons */}
+          <div className="flex flex-col xs:flex-row flex-wrap gap-3 w-full xs:w-auto">
             <button
               onClick={() => smoothScrollTo("contact")}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-900 to-sky-500 text-white text-sm font-semibold shadow-lg hover:scale-105 transition"
+              className="flex items-center justify-center gap-2 px-5 py-3 sm:px-6 rounded-xl bg-gradient-to-r from-blue-900 to-sky-500 text-white text-sm font-semibold shadow-lg hover:scale-105 active:scale-95 transition-transform duration-150 w-full xs:w-auto"
             >
               Get Quote <ArrowRight size={16} />
             </button>
 
             <button
-              onClick={() => navigate('/products')}
-              className="px-6 py-3 rounded-xl border border-slate-300 text-blue-900 text-sm font-semibold hover:bg-blue-50 transition"
+              onClick={() => navigate("/products")}
+              className="flex items-center justify-center px-5 py-3 sm:px-6 rounded-xl border border-slate-300 text-blue-900 text-sm font-semibold hover:bg-blue-50 active:bg-blue-100 transition-colors duration-150 w-full xs:w-auto"
             >
               Browse Products
             </button>
           </div>
         </div>
 
-        {/* RIGHT IMAGE */}
-        <div className="relative w-full">
-          <div className="rounded-2xl overflow-hidden shadow-xl aspect-[4/3] relative">
+        {/* ── RIGHT IMAGE ── */}
+        <div className="relative w-full order-1 lg:order-2">
+          <div className="rounded-2xl overflow-hidden shadow-xl w-full relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3]">
 
             <AnimatePresence mode="wait">
               <motion.img
                 key={current}
                 src={slide.img}
-                alt=""
-                initial={{ scale: 1.1, opacity: 0 }}
+                alt={slide.headline}
+                initial={{ scale: 1.08, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.6 }}
@@ -150,16 +152,17 @@ export default function Hero({ id }) {
               />
             </AnimatePresence>
 
-            {/* Indicators */}
-            <div className="absolute bottom-4 left-4 flex gap-2">
+            {/* Slide indicators */}
+            <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 flex gap-2 z-10">
               {SLIDES.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => go(i)}
-                  className={`h-2 rounded-full transition-all ${
+                  aria-label={`Go to slide ${i + 1}`}
+                  className={`h-2 rounded-full transition-all duration-300 ${
                     i === current
                       ? "w-6 bg-sky-500"
-                      : "w-2 bg-white/50"
+                      : "w-2 bg-white/60 hover:bg-white/80"
                   }`}
                 />
               ))}

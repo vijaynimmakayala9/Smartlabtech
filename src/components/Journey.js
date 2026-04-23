@@ -19,7 +19,7 @@ export default function JourneySection({ id }) {
   }, []);
 
   return (
-    <section id={id} className="bg-white py-2.5 min-h-screen overflow-hidden relative font-body">
+    <section id={id} className="bg-white py-8 overflow-hidden relative font-body">
       {/* Background glow orbs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -bottom-[15%] -right-[8%] w-[600px] h-[600px] rounded-full"
