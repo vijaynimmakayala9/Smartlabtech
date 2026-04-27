@@ -70,7 +70,7 @@ export default function Home() {
   // Intro bounce — scrolls down then back to top
   useEffect(() => {
     const timer = setTimeout(() => {
-      smoothScroll(200, 800);
+      smoothScroll(400, 800);
       setTimeout(() => smoothScroll(0, 900), 1000); // Increased delay slightly
     }, 400);
 
