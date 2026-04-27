@@ -81,7 +81,7 @@ export default function Hero({ id }) {
       <div className="hidden sm:block absolute -top-32 -right-32 w-64 h-64 md:w-[400px] md:h-[400px] bg-sky-200/30 rounded-full blur-3xl pointer-events-none" />
       <div className="hidden sm:block absolute -bottom-24 -left-24 w-48 h-48 md:w-[300px] md:h-[300px] bg-blue-300/20 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative z-10 max-w-9xl mx-auto w-full px-4 sm:px-6 lg:px-12 py-8 sm:py-20 lg:py-12 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-12 py-8 sm:py-20 lg:py-12 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-center">
 
         {/* ── LEFT CONTENT ── */}
         <div className="flex flex-col items-start text-left order-2 lg:order-1">

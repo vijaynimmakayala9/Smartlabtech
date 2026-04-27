@@ -130,7 +130,7 @@ export default function Testimonials({ id }) {
         className="relative bg-slate-50 py-8 sm:py-8 lg:py-8 overflow-hidden"
       >
         {/* Header */}
-        <div className="max-w-9xl mx-auto px-4 sm:px-8 lg:px-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-20">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
