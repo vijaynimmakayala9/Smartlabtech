@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  ChevronDown, Menu, X, ChevronRight, ArrowRight, 
+import {
+  ChevronDown, Menu, X, ChevronRight, ArrowRight,
   Phone, Mail, HelpCircle, BookOpen, FileText, Briefcase,
   Search
 } from 'lucide-react';
@@ -30,7 +30,7 @@ export default function Navbar() {
   const [moreDropOpen, setMoreDropOpen] = useState(false);
   const [activeCat, setActiveCat] = useState('Weighing & Measurement');
   const [mobileExpanded, setMobileExpanded] = useState({});
-  
+
   // Search states
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -101,7 +101,7 @@ export default function Navbar() {
 
   const openDrop = () => { if (window.innerWidth >= 1024) { clearTimeout(timerRef.current); setDropOpen(true); } };
   const closeDrop = () => { timerRef.current = setTimeout(() => setDropOpen(false), 150); };
-  
+
   const openMoreDrop = () => { if (window.innerWidth >= 1024) { clearTimeout(moreTimerRef.current); setMoreDropOpen(true); } };
   const closeMoreDrop = () => { moreTimerRef.current = setTimeout(() => setMoreDropOpen(false), 150); };
 
@@ -214,9 +214,8 @@ export default function Navbar() {
             {/* Logo */}
             <button
               onClick={() => { navigate('/'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-              className={`flex items-center gap-2.5 sm:gap-3.5 flex-shrink-0 bg-transparent border-none cursor-pointer p-0 transition-all duration-300 ${
-                isSearchOpen ? 'lg:flex hidden' : 'flex'
-              }`}
+              className={`flex items-center gap-2.5 sm:gap-3.5 flex-shrink-0 bg-transparent border-none cursor-pointer p-0 transition-all duration-300 ${isSearchOpen ? 'lg:flex hidden' : 'flex'
+                }`}
             >
               <img
                 src="/logo.png"
@@ -293,9 +292,8 @@ export default function Navbar() {
                                     setMoreDropOpen(false);
                                     navigate(item.link);
                                   }}
-                                  className={`flex items-center gap-2.5 w-full px-4 py-2.5 text-left hover:bg-indigo-50 transition-colors group ${
-                                    idx !== MORE_LINKS.length - 1 ? 'border-b border-slate-100' : ''
-                                  }`}
+                                  className={`flex items-center gap-2.5 w-full px-4 py-2.5 text-left hover:bg-indigo-50 transition-colors group ${idx !== MORE_LINKS.length - 1 ? 'border-b border-slate-100' : ''
+                                    }`}
                                 >
                                   <span className="text-slate-400 group-hover:text-blue-600 transition-colors">
                                     {item.icon}
@@ -327,7 +325,7 @@ export default function Navbar() {
             )}
 
             {/* Search Bar Container */}
-            <div 
+            <div
               ref={searchBarRef}
               className={`${isSearchOpen ? 'flex-1 flex items-center gap-2 ml-4' : ''}`}
             >
@@ -409,9 +407,9 @@ export default function Navbar() {
         </motion.nav>
 
         {/* Search Bar Component - Pass searchTerm and setSearchTerm */}
-        <SearchBar 
-          isOpen={isSearchOpen} 
-          onClose={handleSearchClose} 
+        <SearchBar
+          isOpen={isSearchOpen}
+          onClose={handleSearchClose}
           searchBarRef={searchBarRef}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
@@ -489,18 +487,36 @@ export default function Navbar() {
                             }}
                             className="flex items-center gap-3 p-3 rounded-xl hover:bg-indigo-50 transition text-left group"
                           >
+                            {/* Icon */}
                             <div className="w-10 h-10 flex items-center justify-center bg-slate-100 rounded-lg text-lg group-hover:bg-indigo-100">
                               {item.icon}
                             </div>
-                            <p className="text-xs font-semibold text-blue-900 flex-1">{item.name}</p>
-                            <ChevronRight size={12} className="opacity-0 group-hover:opacity-100 transition" />
+
+                            {/* Text Content */}
+                            <div className="flex flex-col flex-1">
+                              <p className="text-xs font-semibold text-blue-900">
+                                {item.name}
+                              </p>
+
+                              {/* ✅ Sub Name */}
+                              {item.subName && (
+                                <p className="text-[10px] text-gray-500 leading-tight">
+                                  {item.subName}
+                                </p>
+                              )}
+                            </div>
+
+                            <ChevronRight
+                              size={12}
+                              className="opacity-0 group-hover:opacity-100 transition"
+                            />
                           </button>
                         ))}
                       </motion.div>
                     </AnimatePresence>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center justify-between px-6 py-3 bg-slate-50 border-t border-slate-100">
                   <span className="text-xs text-slate-500">Need help choosing the right instrument?</span>
                   <button
