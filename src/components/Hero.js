@@ -7,19 +7,19 @@ import { useNavigate } from "react-router-dom";
 const SLIDES = [
   {
     headline: "Advanced Laboratory Equipment",
-    sub: "looking for Advanced Laboratory Equipment you've come to the right place!",
+    sub: "Looking for Spectrophotometers? You've come to the right place!",
     img: analytics,
     badge: "ISO 9001:2015 Certified",
   },
   {
     headline: "Precision Scientific Instruments",
-    sub: "looking for Precision Scientific Instruments you've come to the right place!",
+    sub: "Looking for Chromatography Systems? You've come to the right place!",
     img: "https://images.unsplash.com/photo-1628595351029-c2bf17511435?w=900&q=80",
     badge: "Serving 500+ Institutions",
   },
   {
     headline: "Reliable Research Solutions",
-    sub: "looking for Reliable Research Solutions you've come to the right place!",
+    sub: "Looking for Microscopes & Imaging Systems? You've come to the right place!",
     img: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=900&q=80",
     badge: "20+ Years of Trust",
   },
@@ -160,8 +160,8 @@ export default function Hero({ id }) {
                   onClick={() => go(i)}
                   aria-label={`Go to slide ${i + 1}`}
                   className={`h-2 rounded-full transition-all duration-300 ${i === current
-                      ? "w-6 bg-sky-500"
-                      : "w-2 bg-white/60 hover:bg-white/80"
+                    ? "w-6 bg-sky-500"
+                    : "w-2 bg-white/60 hover:bg-white/80"
                     }`}
                 />
               ))}
