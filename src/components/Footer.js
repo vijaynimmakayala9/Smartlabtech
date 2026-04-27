@@ -11,7 +11,7 @@ const FOOTER_LINKS = {
 export default function Footer({ id }) {
   return (
     <footer id={id} className="bg-slate-900 text-slate-200 pt-[72px]">
-      <div className="max-w-screen-xl mx-auto px-4 sm:px-8 lg:px-20">
+      <div className="max-w-9xl mx-auto px-4 sm:px-8 lg:px-20">
 
         {/* Newsletter bar */}
         <div className="rounded-2xl p-6 sm:p-9 flex flex-wrap items-center justify-between gap-5 mb-14"

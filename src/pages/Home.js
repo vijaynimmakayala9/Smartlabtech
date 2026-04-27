@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useCallback } from "react";
 
 import Navbar from '../components/Navbar.js';
 import Hero from '../components/Hero.js';
@@ -7,89 +7,130 @@ import Journey from '../components/Journey.js';
 import Contact from '../components/Contact.js';
 import Footer from '../components/Footer.js';
 import Testimonials from '../components/Testinomials.js';
-import ScrollDots from '../views/ScrollDots.js';
 
 export default function Home() {
-  const [isScrolling, setIsScrolling] = useState(false);
+  const isAnimating = useRef(false);
+  const rafRef = useRef(null);
 
-  // Smooth scroll with cubic-bezier easing for natural feel
-  const smoothScroll = (to, duration = 1000) => {
-    const start = window.scrollY;
-    const change = to - start;
-    let startTime = null;
+  const smoothScroll = useCallback((to, duration = 900) => {
+    // Cancel any in-progress animation
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
 
-    // Custom easing: cubic-bezier(0.25, 0.46, 0.45, 0.94) - smooth deceleration
-    const easeOutCubic = (t) => {
-      return 1 - Math.pow(1 - t, 3);
-    };
-
-    const animateScroll = (currentTime) => {
-      if (!startTime) startTime = currentTime;
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-
-      // Using easeOutCubic for smooth landing
-      const eased = easeOutCubic(progress);
-      window.scrollTo(0, start + change * eased);
-
-      if (elapsed < duration) {
-        requestAnimationFrame(animateScroll);
-      } else {
-        setIsScrolling(false);
+    // Small delay to ensure clean state
+    requestAnimationFrame(() => {
+      const start = window.scrollY;
+      const change = to - start;
+      
+      if (Math.abs(change) < 1) {
+        isAnimating.current = false;
+        return;
       }
-    };
 
-    setIsScrolling(true);
-    requestAnimationFrame(animateScroll);
-  };
+      // Smoother easing function
+      const easeInOutCubic = (t) => {
+        return t < 0.5 
+          ? 4 * t * t * t 
+          : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      };
 
-  useEffect(() => {
-    // Gentle intro animation - subtle downward then upward motion
-    const startIntroAnimation = () => {
-      // Step 1: Scroll down slightly (280px) to create subtle motion
-      smoothScroll(600, 600);
+      let startTime = null;
+      isAnimating.current = true;
 
-      // Step 2: After slight delay, scroll back up smoothly
-      setTimeout(() => {
-        smoothScroll(0, 600);
-      }, 650);
-    };
+      const animate = (currentTime) => {
+        if (!startTime) startTime = currentTime;
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easedProgress = easeInOutCubic(progress);
+        
+        window.scrollTo({
+          top: start + change * easedProgress,
+          behavior: 'auto' // Use 'auto' instead of 'instant' for compatibility
+        });
 
-    // Start intro animation after page load
-    const timer = setTimeout(startIntroAnimation, 400);
+        if (progress < 1) {
+          rafRef.current = requestAnimationFrame(animate);
+        } else {
+          // Ensure final position is exact
+          window.scrollTo({
+            top: to,
+            behavior: 'auto'
+          });
+          isAnimating.current = false;
+          rafRef.current = null;
+        }
+      };
 
-    return () => clearTimeout(timer);
+      rafRef.current = requestAnimationFrame(animate);
+    });
   }, []);
 
-  // Smooth scroll to section helper (for navigation)
+  // Intro bounce — scrolls down then back to top
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      smoothScroll(200, 800);
+      setTimeout(() => smoothScroll(0, 900), 1000); // Increased delay slightly
+    }, 400);
+
+    return () => {
+      clearTimeout(timer);
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+        isAnimating.current = false;
+      }
+    };
+  }, [smoothScroll]);
+
+  // Hash-based smooth navigation
   useEffect(() => {
     const handleHashChange = (e) => {
       const hash = window.location.hash;
-      if (hash) {
-        e?.preventDefault();
-        const element = document.querySelector(hash);
-        if (element) {
-          const offset = 80; // Navbar height offset
-          const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-          const offsetPosition = elementPosition - offset;
+      if (!hash) return;
+      
+      e?.preventDefault();
 
-          smoothScroll(offsetPosition, 800);
+      const element = document.querySelector(hash);
+      if (element) {
+        const offset = 80;
+        const pos = element.getBoundingClientRect().top + window.scrollY - offset;
+        
+        // Small delay to ensure DOM is ready
+        setTimeout(() => {
+          smoothScroll(pos, 900);
+        }, 50);
+      }
+    };
+
+    // Handle initial hash on load
+    const handleInitialHash = () => {
+      if (window.location.hash) {
+        const element = document.querySelector(window.location.hash);
+        if (element) {
+          const offset = 80;
+          const pos = element.getBoundingClientRect().top + window.scrollY - offset;
+          setTimeout(() => {
+            smoothScroll(pos, 900);
+          }, 300); // Longer delay for initial load
         }
       }
     };
 
     window.addEventListener('hashchange', handleHashChange);
-
-    // Check initial hash
+    
+    // Handle initial hash
     if (window.location.hash) {
-      setTimeout(() => handleHashChange(), 100);
+      handleInitialHash();
     }
 
-    return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, [smoothScroll]);
 
   return (
-    <div style={{ minHeight: '100vh' }}>
+    <div className="min-h-screen">
       <Navbar />
       <Hero id="hero" />
       <About id="about" />
@@ -97,7 +138,6 @@ export default function Home() {
       <Testimonials id="testimonials" />
       <Contact id="contact" />
       <Footer id="footer" />
-      {/* <ScrollDots /> */}
     </div>
   );
 }
