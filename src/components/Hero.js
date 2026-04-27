@@ -75,7 +75,7 @@ export default function Hero({ id }) {
   return (
     <section
       id={id}
-      className="relative vh-100 flex items-center bg-gradient-to-br from-blue-50 via-white to-blue-50 overflow-hidden"
+      className="relative min-h-screen flex items-center bg-gradient-to-br from-blue-50 via-white to-blue-50 overflow-hidden"
     >
       {/* Background blobs — hidden on very small screens to reduce noise */}
       <div className="hidden sm:block absolute -top-32 -right-32 w-64 h-64 md:w-[400px] md:h-[400px] bg-sky-200/30 rounded-full blur-3xl pointer-events-none" />
