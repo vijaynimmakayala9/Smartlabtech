@@ -30,7 +30,7 @@ export default function SideButtons() {
       {/* SIDE TAB */}
       <div
         ref={wrapperRef}
-        className="fixed top-1/2 right-0 z-[1500] -translate-y-1/2"
+        className="fixed top-3/4 right-0 z-[1500] -translate-y-1/2"
         onMouseEnter={() => !pinned && setIsOpen(true)}   // 👈 hover open
         onMouseLeave={() => !pinned && setIsOpen(false)}  // 👈 hover close
       >
@@ -40,7 +40,7 @@ export default function SideButtons() {
           transition={{ type: "spring", stiffness: 260, damping: 20 }}
           className="flex flex-col items-end gap-2"
         >
-          
+
           {/* OPTIONS */}
           <AnimatePresence>
             {isOpen && (
