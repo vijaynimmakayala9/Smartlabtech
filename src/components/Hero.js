@@ -261,7 +261,7 @@ export default function Hero({ id }) {
             </div>
 
             {/* Mobile dot indicators (below CTAs) — duplicate for content area on small screens */}
-            <div className="flex gap-2 text-center mt-6 sm:hidden">
+            <div className="flex gap-2 mt-6 sm:hidden">
               {SLIDES.map((_, i) => (
                 <button
                   key={i}

@@ -610,12 +610,32 @@ export default function Navbar() {
                                       {items.map(item => (
                                         <button
                                           key={item.name}
-                                          onClick={() => { setMobileOpen(false); navigate(item.link); }}
-                                          className="flex items-center gap-3 w-full px-6 py-3 bg-transparent
-                                            border-b border-slate-50 cursor-pointer text-left hover:bg-indigo-50 transition-colors"
+                                          onClick={() => {
+                                            setMobileOpen(false);
+                                            navigate(item.link);
+                                          }}
+                                          className="flex items-start gap-3 w-full px-6 py-3 bg-transparent
+            border-b border-slate-50 cursor-pointer text-left 
+            hover:bg-indigo-50 transition-colors"
                                         >
-                                          <span className="text-lg w-7 text-center flex-shrink-0">{item.icon}</span>
-                                          <p className="text-xs font-semibold text-blue-900 leading-snug">{item.name}</p>
+                                          {/* Icon */}
+                                          <span className="text-lg w-7 text-center flex-shrink-0">
+                                            {item.icon}
+                                          </span>
+
+                                          {/* Text Content */}
+                                          <div className="flex flex-col">
+                                            <p className="text-sm font-semibold text-blue-900 leading-snug">
+                                              {item.name}
+                                            </p>
+
+                                            {/* ✅ Sub Name */}
+                                            {item.subName && (
+                                              <p className="text-xs text-slate-500 leading-tight">
+                                                {item.subName}
+                                              </p>
+                                            )}
+                                          </div>
                                         </button>
                                       ))}
                                     </motion.div>
