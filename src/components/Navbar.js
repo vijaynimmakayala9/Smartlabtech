@@ -20,7 +20,6 @@ const MORE_LINKS = [
   { name: 'Career', icon: <Briefcase size={14} />, link: '/career' },
 ];
 
-const TOP_BAR_H = 42;
 const NAV_H = 80;
 
 export default function Navbar() {
@@ -31,7 +30,6 @@ export default function Navbar() {
   const [activeCat, setActiveCat] = useState('Weighing & Measurement');
   const [mobileExpanded, setMobileExpanded] = useState({});
 
-  // Search states
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const searchBarRef = useRef(null);
@@ -40,20 +38,25 @@ export default function Navbar() {
   const [open, setOpen] = useState(null);
   const close = () => setOpen(null);
 
-  const timerRef = useRef(null);
+  const dropZoneRef = useRef(null);
+  const dropLeaveTimer = useRef(null);
   const moreTimerRef = useRef(null);
   const moreBtnRef = useRef(null);
   const navigate = useNavigate();
 
+  /* ── scroll ── */
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', fn, { passive: true });
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
+  /* ── click outside ── */
   useEffect(() => {
     const fn = (e) => {
-      if (!e.target.closest('[data-navbar]') && !e.target.closest('[data-search-container]')) {
+      const inNavbar = e.target.closest('[data-navbar]');
+      const inDropdown = dropZoneRef.current?.contains(e.target);
+      if (!inNavbar && !inDropdown) {
         setDropOpen(false);
         setMoreDropOpen(false);
         setIsSearchOpen(false);
@@ -63,16 +66,14 @@ export default function Navbar() {
     return () => document.removeEventListener('mousedown', fn);
   }, []);
 
-  // Focus search input when opened
+  /* ── auto-focus search ── */
   useEffect(() => {
-    if (isSearchOpen && searchInputRef.current) {
-      searchInputRef.current.focus();
-    }
+    if (isSearchOpen && searchInputRef.current) searchInputRef.current.focus();
   }, [isSearchOpen]);
 
-  // Keyboard shortcut for search (Ctrl/Cmd + K)
+  /* ── Ctrl/Cmd + K ── */
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const fn = (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
         e.preventDefault();
         setIsSearchOpen(true);
@@ -80,15 +81,14 @@ export default function Navbar() {
         setMoreDropOpen(false);
       }
     };
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
+    document.addEventListener('keydown', fn);
+    return () => document.removeEventListener('keydown', fn);
   }, []);
 
+  /* ── resize ── */
   useEffect(() => {
     const fn = () => {
-      if (window.innerWidth >= 1024) {
-        setMobileOpen(false);
-      }
+      if (window.innerWidth >= 1024) setMobileOpen(false);
       if (window.innerWidth < 1024) {
         setDropOpen(false);
         setMoreDropOpen(false);
@@ -99,24 +99,23 @@ export default function Navbar() {
     return () => window.removeEventListener('resize', fn);
   }, []);
 
-  const openDrop = () => { if (window.innerWidth >= 1024) { clearTimeout(timerRef.current); setDropOpen(true); } };
-  const closeDrop = () => { timerRef.current = setTimeout(() => setDropOpen(false), 150); };
+  /* ── Products dropdown ── */
+  const handleDropEnter = () => {
+    if (window.innerWidth < 1024) return;
+    clearTimeout(dropLeaveTimer.current);
+    setDropOpen(true);
+  };
+  const handleDropLeave = () => {
+    dropLeaveTimer.current = setTimeout(() => setDropOpen(false), 200);
+  };
 
+  /* ── More dropdown ── */
   const openMoreDrop = () => { if (window.innerWidth >= 1024) { clearTimeout(moreTimerRef.current); setMoreDropOpen(true); } };
   const closeMoreDrop = () => { moreTimerRef.current = setTimeout(() => setMoreDropOpen(false), 150); };
 
-  const handleSearchOpen = () => {
-    setIsSearchOpen(true);
-    setDropOpen(false);
-    setMoreDropOpen(false);
-    setSearchTerm('');
-  };
-
-  const handleSearchClose = () => {
-    setIsSearchOpen(false);
-    setSearchTerm('');
-  };
-
+  /* ── Search ── */
+  const handleSearchOpen = () => { setIsSearchOpen(true); setDropOpen(false); setMoreDropOpen(false); setSearchTerm(''); };
+  const handleSearchClose = () => { setIsSearchOpen(false); setSearchTerm(''); };
   const handleSearchSubmit = () => {
     if (searchTerm.trim()) {
       setIsSearchOpen(false);
@@ -125,49 +124,14 @@ export default function Navbar() {
     }
   };
 
+  /* ── Nav click ── */
   const handleNavClick = (link) => {
-    setMobileOpen(false);
-    setDropOpen(false);
-    setMoreDropOpen(false);
-    setIsSearchOpen(false);
-
+    setMobileOpen(false); setDropOpen(false); setMoreDropOpen(false); setIsSearchOpen(false);
     const currentPath = window.location.pathname;
-
-    if (link === 'Home') {
-      if (currentPath === '/') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        navigate('/');
-        setTimeout(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, 100);
-      }
-    } else if (link === 'About') {
-      if (currentPath === '/about') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        navigate('/about');
-        setTimeout(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, 100);
-      }
-    } else if (link === 'Products') {
-      if (currentPath === '/products') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        navigate('/products');
-        setTimeout(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, 100);
-      }
-    } else if (link === 'Services') {
-      if (currentPath === '/services') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        navigate('/services');
-        setTimeout(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, 100);
-      }
-    } else if (link === 'Contact') {
-      if (currentPath === '/contact') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        navigate('/contact');
-        setTimeout(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, 100);
-      }
+    const routes = { Home: '/', About: '/about', Products: '/products', Services: '/services', Contact: '/contact' };
+    if (routes[link]) {
+      if (currentPath === routes[link]) window.scrollTo({ top: 0, behavior: 'smooth' });
+      else { navigate(routes[link]); setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100); }
     } else {
       document.getElementById(link.toLowerCase())?.scrollIntoView({ behavior: 'smooth' });
     }
@@ -176,31 +140,17 @@ export default function Navbar() {
   const toggleMobileCat = (key) =>
     setMobileExpanded(prev => ({ ...prev, [key]: !prev[key] }));
 
+  const mobileDrawerTop = 64;
+
   return (
     <>
-      {/* ─────────── TOP BAR ─────────── */}
-      <div className="fixed top-0 left-0 right-0 z-[1001] h-[42px] bg-[#0f2356] flex items-center justify-end gap-4 sm:gap-7 px-4 sm:px-10 lg:px-20">
-        <div className="flex items-center gap-1.5">
-          <Phone size={12} className="text-white/50" />
-          <span className="text-[11px] sm:text-xs text-white/70 font-medium tracking-wide">+91 98765 43210</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <Mail size={12} className="text-white/50" />
-          <span className="text-[11px] sm:text-xs text-white/70 font-medium tracking-wide xs:block">info@smartlabtech.in</span>
-        </div>
-        <div className="w-px h-4 bg-white/15 hidden sm:block" />
-        <span className="text-[11px] text-white/50 font-medium tracking-widest hidden md:block">
-          Est. 2001 · ISO 9001:2015 Certified
-        </span>
-      </div>
-
       {/* ─────────── MAIN NAVBAR ─────────── */}
       <div data-navbar>
         <motion.nav
           initial={{ y: -88, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5, ease: 'easeOut' }}
-          className={`fixed left-0 right-0 z-[1000] 
+          className={`fixed top-0 left-0 right-0 z-[1000]
             px-4 sm:px-10 lg:px-20
             h-[64px] sm:h-[72px] lg:h-[80px]
             transition-all duration-300
@@ -208,14 +158,13 @@ export default function Navbar() {
               ? 'bg-white/98 border-b border-slate-200 shadow-[0_4px_24px_rgba(15,35,86,0.10)]'
               : 'bg-white/95 border-b border-slate-200/50'
             } backdrop-blur-xl`}
-          style={{ top: TOP_BAR_H }}
         >
           <div className="h-full flex items-center justify-between">
-            {/* Logo */}
+
+            {/* ── Logo ── */}
             <button
               onClick={() => { navigate('/'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-              className={`flex items-center gap-2.5 sm:gap-3.5 flex-shrink-0 bg-transparent border-none cursor-pointer p-0 transition-all duration-300 ${isSearchOpen ? 'lg:flex hidden' : 'flex'
-                }`}
+              className={`flex items-center gap-2.5 sm:gap-3.5 flex-shrink-0 bg-transparent border-none cursor-pointer p-0 transition-all duration-300 ${isSearchOpen ? 'lg:flex hidden' : 'flex'}`}
             >
               <img
                 src="/logo.png"
@@ -233,15 +182,15 @@ export default function Navbar() {
               </div>
             </button>
 
-            {/* Desktop nav links - Hidden when search is open */}
+            {/* ── Desktop nav links ── */}
             {!isSearchOpen && (
               <div className="hidden lg:flex items-center justify-center gap-0.5 xl:gap-1 flex-1">
                 {NAV_LINKS.map(link =>
                   link === 'Products' ? (
                     <button
                       key={link}
-                      onMouseEnter={openDrop}
-                      onMouseLeave={closeDrop}
+                      onMouseEnter={handleDropEnter}
+                      onMouseLeave={handleDropLeave}
                       className={`flex items-center gap-1.5 px-3 xl:px-4 py-2 rounded-lg text-sm font-semibold
                         transition-all duration-150 cursor-pointer border-none
                         ${dropOpen
@@ -278,7 +227,7 @@ export default function Navbar() {
                             initial={{ opacity: 0, y: -8 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -8 }}
-                            transition={{ duration: 0.15, ease: "easeOut" }}
+                            transition={{ duration: 0.15, ease: 'easeOut' }}
                             onMouseEnter={openMoreDrop}
                             onMouseLeave={closeMoreDrop}
                             className="absolute right-0 z-[999] pt-2"
@@ -288,19 +237,11 @@ export default function Navbar() {
                               {MORE_LINKS.map((item, idx) => (
                                 <button
                                   key={item.name}
-                                  onClick={() => {
-                                    setMoreDropOpen(false);
-                                    navigate(item.link);
-                                  }}
-                                  className={`flex items-center gap-2.5 w-full px-4 py-2.5 text-left hover:bg-indigo-50 transition-colors group ${idx !== MORE_LINKS.length - 1 ? 'border-b border-slate-100' : ''
-                                    }`}
+                                  onClick={() => { setMoreDropOpen(false); navigate(item.link); }}
+                                  className={`flex items-center gap-2.5 w-full px-4 py-2.5 text-left hover:bg-indigo-50 transition-colors group ${idx !== MORE_LINKS.length - 1 ? 'border-b border-slate-100' : ''}`}
                                 >
-                                  <span className="text-slate-400 group-hover:text-blue-600 transition-colors">
-                                    {item.icon}
-                                  </span>
-                                  <span className="text-sm font-medium text-slate-700 group-hover:text-blue-900">
-                                    {item.name}
-                                  </span>
+                                  <span className="text-slate-400 group-hover:text-blue-600 transition-colors">{item.icon}</span>
+                                  <span className="text-sm font-medium text-slate-700 group-hover:text-blue-900">{item.name}</span>
                                   <ChevronRight size={12} className="ml-auto text-slate-300 group-hover:text-blue-400 opacity-0 group-hover:opacity-100 transition-all" />
                                 </button>
                               ))}
@@ -324,7 +265,7 @@ export default function Navbar() {
               </div>
             )}
 
-            {/* Search Bar Container */}
+            {/* ── Search + CTA + Hamburger ── */}
             <div
               ref={searchBarRef}
               className={`${isSearchOpen ? 'flex-1 flex items-center gap-2 ml-4' : ''}`}
@@ -340,11 +281,8 @@ export default function Navbar() {
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          handleSearchSubmit();
-                        } else if (e.key === 'Escape') {
-                          handleSearchClose();
-                        }
+                        if (e.key === 'Enter') handleSearchSubmit();
+                        else if (e.key === 'Escape') handleSearchClose();
                       }}
                       className="w-full pl-12 pr-4 py-2.5 lg:py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm lg:text-base"
                     />
@@ -406,7 +344,7 @@ export default function Navbar() {
           </div>
         </motion.nav>
 
-        {/* Search Bar Component - Pass searchTerm and setSearchTerm */}
+        {/* SearchBar component */}
         <SearchBar
           isOpen={isSearchOpen}
           onClose={handleSearchClose}
@@ -416,123 +354,118 @@ export default function Navbar() {
           onSearchSubmit={handleSearchSubmit}
         />
 
-        {/* Products Dropdown */}
+        {/* ── Products Dropdown ── */}
         <AnimatePresence>
           {dropOpen && !isSearchOpen && (
-            <motion.div
-              data-navbar
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              onMouseEnter={openDrop}
-              onMouseLeave={closeDrop}
-              className="fixed left-0 right-0 z-[999] flex justify-center px-4"
-              style={{ top: TOP_BAR_H + NAV_H + 8 }}
-            >
-              <div className="w-full max-w-[1000px] bg-white rounded-2xl border border-slate-200 shadow-[0_20px_60px_rgba(15,35,86,0.18)] overflow-hidden">
-                {/* Header */}
-                <div className="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-[#0f2356] to-[#2563eb]">
-                  <div>
-                    <p className="text-sm font-bold text-white tracking-wide">Product Catalogue</p>
-                    <p className="text-xs text-white/60 mt-0.5">Scientific & laboratory instruments</p>
-                  </div>
-                  <button
-                    onClick={() => { setDropOpen(false); navigate('/products'); }}
-                    className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white border border-white/25 bg-white/15 hover:bg-white/30 transition"
-                  >
-                    View All <ArrowRight size={13} />
-                  </button>
-                </div>
-
-                {/* BODY */}
-                <div className="flex max-h-[60vh]">
-                  <div className="w-64 bg-slate-50 border-r border-slate-100 overflow-y-auto p-3">
-                    {Object.keys(CATEGORIES).map((cat) => {
-                      const isActive = activeCat === cat;
-                      return (
-                        <button
-                          key={cat}
-                          onClick={() => setActiveCat(cat)}
-                          onMouseEnter={() => setActiveCat(cat)}
-                          className={`flex items-center justify-between w-full px-3 py-2.5 rounded-xl mb-1 text-xs transition
-                            ${isActive
-                              ? "bg-gradient-to-r from-blue-900 to-blue-600 text-white font-semibold"
-                              : "text-slate-600 hover:bg-white hover:text-blue-900"
-                            }`}
-                        >
-                          <span className="truncate">{cat}</span>
-                          <ChevronRight size={12} />
-                        </button>
-                      );
-                    })}
+            <>
+              <div
+                className="fixed left-0 right-0 z-[998]"
+                style={{ top: NAV_H, height: 16 }}
+                onMouseEnter={handleDropEnter}
+                onMouseLeave={handleDropLeave}
+              />
+              <motion.div
+                ref={dropZoneRef}
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.2, ease: 'easeOut' }}
+                onMouseEnter={handleDropEnter}
+                onMouseLeave={handleDropLeave}
+                className="fixed left-0 right-0 z-[999] flex justify-center px-4"
+                style={{ top: NAV_H + 8 }}
+              >
+                <div className="w-full max-w-[1000px] bg-white rounded-2xl border border-slate-200 shadow-[0_20px_60px_rgba(15,35,86,0.18)] overflow-hidden">
+                  {/* Header */}
+                  <div className="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-[#0f2356] to-[#2563eb]">
+                    <div>
+                      <p className="text-sm font-bold text-white tracking-wide">Product Catalogue</p>
+                      <p className="text-xs text-white/60 mt-0.5">Scientific & laboratory instruments</p>
+                    </div>
+                    <button
+                      onClick={() => { setDropOpen(false); navigate('/products'); }}
+                      className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white border border-white/25 bg-white/15 hover:bg-white/30 transition"
+                    >
+                      View All <ArrowRight size={13} />
+                    </button>
                   </div>
 
-                  <div className="flex-1 overflow-y-auto p-4">
-                    <AnimatePresence mode="wait">
-                      <motion.div
-                        key={activeCat}
-                        initial={{ opacity: 0, x: 10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -10 }}
-                        transition={{ duration: 0.2 }}
-                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3"
-                      >
-                        {(CATEGORIES[activeCat] || []).map((item) => (
+                  {/* Body */}
+                  <div className="flex max-h-[60vh]">
+                    {/* Category sidebar */}
+                    <div className="w-64 bg-slate-50 border-r border-slate-100 overflow-y-auto p-3">
+                      {Object.keys(CATEGORIES).map((cat) => {
+                        const isActive = activeCat === cat;
+                        return (
                           <button
-                            key={item.name}
-                            onClick={() => {
-                              setDropOpen(false);
-                              navigate(item.link);
-                            }}
-                            className="flex items-center gap-3 p-3 rounded-xl hover:bg-indigo-50 transition text-left group"
+                            key={cat}
+                            onClick={() => setActiveCat(cat)}
+                            onMouseEnter={() => setActiveCat(cat)}
+                            className={`flex items-center justify-between w-full px-3 py-2.5 rounded-xl mb-1 text-xs transition
+                            ${isActive
+                                ? 'bg-gradient-to-r from-blue-900 to-blue-600 text-white font-semibold'
+                                : 'text-slate-600 hover:bg-white hover:text-blue-900'
+                              }`}
                           >
-                            {/* Icon */}
-                            <div className="w-10 h-10 flex items-center justify-center bg-slate-100 rounded-lg text-lg group-hover:bg-indigo-100">
-                              {item.icon}
-                            </div>
-
-                            {/* Text Content */}
-                            <div className="flex flex-col flex-1">
-                              <p className="text-xs font-semibold text-blue-900">
-                                {item.name}
-                              </p>
-
-                              {/* ✅ Sub Name */}
-                              {item.subName && (
-                                <p className="text-[10px] text-gray-500 leading-tight">
-                                  {item.subName}
-                                </p>
-                              )}
-                            </div>
-
-                            <ChevronRight
-                              size={12}
-                              className="opacity-0 group-hover:opacity-100 transition"
-                            />
+                            <span className="truncate">{cat}</span>
+                            <ChevronRight size={12} />
                           </button>
-                        ))}
-                      </motion.div>
-                    </AnimatePresence>
+                        );
+                      })}
+                    </div>
+
+                    {/* Items grid */}
+                    <div className="flex-1 overflow-y-auto p-4">
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={activeCat}
+                          initial={{ opacity: 0, x: 10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: -10 }}
+                          transition={{ duration: 0.2 }}
+                          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3"
+                        >
+                          {(CATEGORIES[activeCat] || []).map((item) => (
+                            <button
+                              key={item.name}
+                              onClick={() => { setDropOpen(false); navigate(item.link); }}
+                              className="flex items-center gap-3 p-3 rounded-xl hover:bg-indigo-50 transition text-left group"
+                            >
+                              <div className="w-10 h-10 flex items-center justify-center bg-slate-100 rounded-lg text-lg group-hover:bg-indigo-100">
+                                {item.icon}
+                              </div>
+                              <div className="flex flex-col flex-1">
+                                <p className="text-xs font-semibold text-blue-900">{item.name}</p>
+                                {item.subName && (
+                                  <p className="text-[10px] text-gray-500 leading-tight">{item.subName}</p>
+                                )}
+                              </div>
+                              <ChevronRight size={12} className="opacity-0 group-hover:opacity-100 transition" />
+                            </button>
+                          ))}
+                        </motion.div>
+                      </AnimatePresence>
+                    </div>
+                  </div>
+
+                  {/* Footer */}
+                  <div className="flex items-center justify-between px-6 py-3 bg-slate-50 border-t border-slate-100">
+                    <span className="text-xs text-slate-500">Need help choosing the right instrument?</span>
+                    <button
+                      onClick={() => { setDropOpen(false); navigate('/contact'); }}
+                      className="px-4 py-1.5 rounded-lg text-xs font-semibold border border-blue-400 text-blue-600 hover:bg-blue-600 hover:text-white transition"
+                    >
+                      Contact Expert
+                    </button>
                   </div>
                 </div>
-
-                <div className="flex items-center justify-between px-6 py-3 bg-slate-50 border-t border-slate-100">
-                  <span className="text-xs text-slate-500">Need help choosing the right instrument?</span>
-                  <button
-                    onClick={() => { setDropOpen(false); navigate('/contact'); }}
-                    className="px-4 py-1.5 rounded-lg text-xs font-semibold border border-blue-400 text-blue-600 hover:bg-blue-600 hover:text-white transition"
-                  >
-                    Contact Expert
-                  </button>
-                </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
       </div>
 
-      {/* Mobile Drawer - abbreviated for brevity */}
+      {/* ─────────── MOBILE DRAWER ─────────── */}
       <AnimatePresence>
         {mobileOpen && (
           <>
@@ -543,7 +476,7 @@ export default function Navbar() {
               exit={{ opacity: 0 }}
               onClick={() => setMobileOpen(false)}
               className="fixed inset-0 z-[900] bg-slate-900/40 backdrop-blur-sm"
-              style={{ top: TOP_BAR_H + 64 }}
+              style={{ top: mobileDrawerTop }}
             />
 
             <motion.div
@@ -553,7 +486,7 @@ export default function Navbar() {
               exit={{ x: '100%' }}
               transition={{ type: 'tween', duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="fixed right-0 bottom-0 w-[min(360px,100vw)] bg-white z-[950] overflow-y-auto"
-              style={{ top: TOP_BAR_H + 64, boxShadow: '-6px 0 28px rgba(15,35,86,0.14)' }}
+              style={{ top: mobileDrawerTop, boxShadow: '-6px 0 28px rgba(15,35,86,0.14)' }}
             >
               <nav>
                 {NAV_LINKS.map(link =>
@@ -610,30 +543,16 @@ export default function Navbar() {
                                       {items.map(item => (
                                         <button
                                           key={item.name}
-                                          onClick={() => {
-                                            setMobileOpen(false);
-                                            navigate(item.link);
-                                          }}
+                                          onClick={() => { setMobileOpen(false); navigate(item.link); }}
                                           className="flex items-start gap-3 w-full px-6 py-3 bg-transparent
-            border-b border-slate-50 cursor-pointer text-left 
-            hover:bg-indigo-50 transition-colors"
+                                            border-b border-slate-50 cursor-pointer text-left
+                                            hover:bg-indigo-50 transition-colors"
                                         >
-                                          {/* Icon */}
-                                          <span className="text-lg w-7 text-center flex-shrink-0">
-                                            {item.icon}
-                                          </span>
-
-                                          {/* Text Content */}
+                                          <span className="text-lg w-7 text-center flex-shrink-0">{item.icon}</span>
                                           <div className="flex flex-col">
-                                            <p className="text-sm font-semibold text-blue-900 leading-snug">
-                                              {item.name}
-                                            </p>
-
-                                            {/* ✅ Sub Name */}
+                                            <p className="text-sm font-semibold text-blue-900 leading-snug">{item.name}</p>
                                             {item.subName && (
-                                              <p className="text-xs text-slate-500 leading-tight">
-                                                {item.subName}
-                                              </p>
+                                              <p className="text-xs text-slate-500 leading-tight">{item.subName}</p>
                                             )}
                                           </div>
                                         </button>
@@ -705,8 +624,7 @@ export default function Navbar() {
 
               <div className="p-4">
                 <button
-                  // onClick={() => { setMobileOpen(false); navigate('/quote'); }}
-                  onClick={() => { setOpen('quote'); }}
+                  onClick={() => setOpen('quote')}
                   className="w-full py-3.5 rounded-xl text-sm font-semibold text-white border-none cursor-pointer
                     bg-gradient-to-r from-blue-900 to-sky-500 shadow-md"
                 >
@@ -733,8 +651,8 @@ export default function Navbar() {
         <QuoteForm onClose={close} />
       </Modal>
 
-      <div className="h-[calc(42px+64px)] sm:h-[calc(42px+72px)] lg:h-[calc(42px+80px)]" />
+      {/* ✅ Spacer */}
+      <div className="h-[64px] sm:h-[72px] lg:h-[80px]" />
     </>
   );
 }
-
