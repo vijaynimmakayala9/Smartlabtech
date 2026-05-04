@@ -36,7 +36,7 @@ export default function About({ id }) {
           <Reveal>
             <div className="relative w-full mx-auto">
               {/* Decorative background frame */}
-              <div className="absolute -top-3 -left-3 right-6 bottom-6 sm:-top-4 sm:-left-4 sm:right-8 sm:bottom-8 rounded-2xl bg-gradient-to-br from-blue-900/[0.08] to-sky-500/[0.06]" />
+              <div className="absolute -top-3 -left-3 right-6 bottom-6 sm:-top-4 sm:-left-4 sm:right-8 sm:bottom-8 rounded-2xl bg-white" />
               
               {/* Responsive Tree Component */}
               <LabTechTree />
