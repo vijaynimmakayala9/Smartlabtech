@@ -31,8 +31,8 @@ const logos = [
     { name: "SARTORIUS", img: sartorius, top: "15%", left: "50%", bg: "#ffe600", link: "https://www.sartorius.com/en" },
 
     // Row 2
-    { name: "HORIBA", img: horiba, top: "22%", left: "34%", link: "https://www.horiba.com/en/" },
-    { name: "MEMMERT", img: memmert, top: "22%", left: "66%", link: "https://www.memmert.de/en/" },
+    { name: "HORIBA", img: horiba, top: "22%", left: "34%", link: "https://www.horiba.com/int/" },
+    { name: "MEMMERT", img: memmert, top: "22%", left: "66%", link: "https://www.memmert.com/" },
 
     // Row 3
     { name: "BS", img: bs, top: "28%", left: "42%", link: "https://www.bellingham.com/" },
