@@ -84,7 +84,7 @@ const ContactPage = () => {
         <div className="absolute top-0 right-0 w-[600px] h-[600px] pointer-events-none bg-gradient-to-bl from-sky-500/10 to-transparent rounded-full blur-3xl" />
 
         {/* Content - Centered */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-20 flex flex-col justify-center items-center text-center h-full"
+        <div className="relative z-10 max-w-9xl mx-auto px-4 sm:px-8 lg:px-20 flex flex-col justify-center items-center text-center h-full"
           style={{ paddingTop: 'clamp(80px,12vw,140px)', paddingBottom: 'clamp(60px,10vw,120px)' }}>
 
           {/* Eyebrow */}
@@ -152,7 +152,7 @@ const ContactPage = () => {
       </section>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-20 py-20">
+      <div className="max-w-9xl mx-auto px-4 sm:px-8 lg:px-20 py-20">
         <div className="grid md:grid-cols-2 gap-12 items-start">
           
           {/* LEFT - Contact Info */}
@@ -310,7 +310,7 @@ const ContactPage = () => {
 
       {/* Map Section */}
       <Reveal>
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-20 pb-20">
+        <div className="max-w-9xl mx-auto px-4 sm:px-8 lg:px-20 pb-20">
           <div className="rounded-3xl overflow-hidden border border-slate-200 h-[380px] relative shadow-lg">
             <div className="absolute inset-0 z-10 pointer-events-none rounded-3xl ring-1 ring-inset ring-slate-200/50" />
             <iframe

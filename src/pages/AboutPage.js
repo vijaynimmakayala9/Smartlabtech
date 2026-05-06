@@ -80,7 +80,7 @@ const AboutPage = () => {
         <div className="absolute top-0 right-0 w-[600px] h-[600px] pointer-events-none bg-gradient-to-bl from-sky-500/10 to-transparent rounded-full blur-3xl" />
 
         {/* Content - Centered */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-20 flex flex-col justify-center items-center text-center h-full"
+        <div className="relative z-10 max-w-9xl mx-auto px-4 sm:px-8 lg:px-20 flex flex-col justify-center items-center text-center h-full"
           style={{ paddingTop: 'clamp(80px,12vw,140px)', paddingBottom: 'clamp(60px,10vw,120px)' }}>
 
           {/* Eyebrow - Centered */}
@@ -149,7 +149,7 @@ const AboutPage = () => {
 
       {/* Who We Are Section */}
       <section className="bg-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-20">
+        <div className="max-w-9xl mx-auto px-4 sm:px-8 lg:px-20">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <Reveal>
               <div>
@@ -188,7 +188,7 @@ const AboutPage = () => {
 
       {/* Mission & Vision Section */}
       <section className="bg-[linear-gradient(135deg,rgba(15,35,86,0.05)_0%,rgba(30,58,138,0.03)_50%,rgba(14,165,233,0.05)_100%)] py-16 border-y border-sky-100/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-20">
+        <div className="max-w-9xl mx-auto px-4 sm:px-8 lg:px-20">
           <div className="grid md:grid-cols-2 gap-6">
             {/* Mission Card */}
             <Reveal>
@@ -221,7 +221,7 @@ const AboutPage = () => {
 
       {/* Core Values Section */}
       <section className="bg-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-20">
+        <div className="max-w-9xl mx-auto px-4 sm:px-8 lg:px-20">
           <Reveal className="text-center mb-14">
             <div className="flex items-center justify-center gap-2 mb-3">
               <div className="w-8 h-px bg-blue-600" />
@@ -253,7 +253,7 @@ const AboutPage = () => {
 
       {/* Why Choose Us Section */}
       <section className="bg-[linear-gradient(135deg,rgba(15,35,86,0.05)_0%,rgba(30,58,138,0.03)_50%,rgba(14,165,233,0.05)_100%)] py-20 border-y border-sky-100/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-20">
+        <div className="max-w-9xl mx-auto px-4 sm:px-8 lg:px-20">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <Reveal>
               <div>
@@ -290,7 +290,7 @@ const AboutPage = () => {
       {/* CTA Section */}
       <Reveal>
         <div className="py-20 px-4 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-20">
+          <div className="max-w-9xl mx-auto px-4 sm:px-8 lg:px-20">
             <div className="rounded-3xl p-12 md:p-16 text-center bg-[linear-gradient(135deg,rgba(15,35,86,0.95)_0%,rgba(30,58,138,0.9)_50%,rgba(14,165,233,0.95)_100%)] shadow-xl">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 text-white text-xs font-semibold mb-5" style={{ fontFamily: "'Outfit', sans-serif" }}>
                 Let's Collaborate
