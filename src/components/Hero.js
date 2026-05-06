@@ -2,8 +2,10 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import analytics from "../assets/sartorius.jpeg";
+// import analytics from "../assets/sartorius1.png";
 
-const analytics = "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=900&q=80";
+// const analytics = "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=900&q=80";
 
 const SLIDES = [
   {

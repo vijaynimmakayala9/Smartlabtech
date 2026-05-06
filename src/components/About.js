@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { CheckCircle2, ArrowRight } from "lucide-react";
 import LabTechTree from "./LabTechTree";
+import Smarttree from "../assets/Smarttree.png";
 
 const HIGHLIGHTS = [
   "Authorized dealer for 50+ globally recognized laboratory brands",
@@ -39,7 +40,8 @@ export default function About({ id }) {
               <div className="absolute -top-3 -left-3 right-6 bottom-6 sm:-top-4 sm:-left-4 sm:right-8 sm:bottom-8 rounded-2xl bg-white" />
               
               {/* Responsive Tree Component */}
-              <LabTechTree />
+              {/* <LabTechTree /> */}
+              <img src={Smarttree} alt="Lab Equipment" className="w-full h-auto rounded-2xl object-cover relative z-20 shadow-lg" />
 
               {/* Years badge */}
               <div className="absolute -bottom-3 -right-3 sm:-bottom-4 sm:-right-4 z-30 rounded-2xl px-4 py-3 sm:px-5 sm:py-4 bg-gradient-to-br from-blue-900 to-blue-700 shadow-[0_8px_32px_rgba(30,58,138,0.3)]">
