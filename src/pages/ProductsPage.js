@@ -403,7 +403,7 @@ const ProductCard = ({ product, viewMode, index }) => {
         </h3>
         <p className="text-slate-500 text-xs mb-4 line-clamp-2">{product.description}</p>
 
-        <div className="flex items-end justify-between">
+        {/* <div className="flex items-end justify-between">
           <div>
             <p className="text-[10px] text-slate-400 uppercase tracking-wider">Starting from</p>
             <p className="text-lg font-serif font-bold text-slate-900">{product.price}</p>
@@ -412,7 +412,7 @@ const ProductCard = ({ product, viewMode, index }) => {
             <div className={`w-2 h-2 rounded-full ${product.inStock ? 'bg-green-500' : 'bg-amber-500'} animate-pulse`} />
             <span className="text-[10px] text-slate-500">{product.inStock ? 'In Stock' : 'On Order'}</span>
           </div>
-        </div>
+        </div> */}
       </div>
     </motion.div>
   );

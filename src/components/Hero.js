@@ -92,7 +92,7 @@ export default function Hero({ id }) {
   return (
     <section
       id={id}
-      className="relative min-h-screen flex items-center bg-gradient-to-br from-blue-50 via-white to-blue-50 overflow-hidden"
+      className="relative flex items-center bg-gradient-to-br from-blue-50 via-white to-blue-50 overflow-hidden"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >

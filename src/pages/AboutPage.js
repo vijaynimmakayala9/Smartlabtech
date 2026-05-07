@@ -137,7 +137,7 @@ const AboutPage = () => {
               Get in Touch <ArrowRight size={15} />
             </a>
             <a
-              href="/category"
+              href="/products"
               className="relative overflow-hidden inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-semibold bg-white/10 border border-white/20 text-white hover:bg-white/20 hover:-translate-y-0.5 transition-all before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-white/20 before:to-transparent before:transition-transform before:duration-500 hover:before:translate-x-0"
               style={{ fontFamily: "'Outfit', sans-serif" }}
             >

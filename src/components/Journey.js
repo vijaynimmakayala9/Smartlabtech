@@ -5,9 +5,9 @@ import img2 from '../assets/DSC04569.jpg';
 import img3 from '../assets/DSC04595.jpg';
 
 const SLIDES = [
-  { url: img1, year: '1999', label: 'The Beginning',  desc: 'Founded with a vision to redefine scientific excellence in India.' },
+  { url: img1, year: '1999', label: 'The Beginning', desc: 'Founded with a vision to redefine scientific excellence in India.' },
   { url: img2, year: '2005', label: 'First Lab Wing', desc: 'Expanded our infrastructure with a state-of-the-art laboratory wing.' },
-  { url: img3, year: '2009', label: 'ISO Certified',  desc: 'Achieved ISO certification, marking our commitment to global quality standards.' },
+  { url: img3, year: '2009', label: 'ISO Certified', desc: 'Achieved ISO certification, marking our commitment to global quality standards.' },
 ];
 
 const STATS = [
@@ -145,7 +145,7 @@ export default function JourneySection({ id }) {
               {[
                 { label: '1999', angle: -40, r: 142, delay: 0.6 },
                 { label: '2005', angle: 140, r: 142, delay: 0.8 },
-                { label: '2009', angle: 90,  r: 147, delay: 1.0 },
+                { label: '2009', angle: 90, r: 147, delay: 1.0 },
               ].map(({ label, angle, r, delay }) => {
                 const rad = (angle * Math.PI) / 180;
                 const x = 150 + r * Math.cos(rad) - 22;
